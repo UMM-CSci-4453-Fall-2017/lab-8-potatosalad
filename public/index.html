@@ -6,13 +6,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>
     <script src="click.js"></script>
+    <script src="items.js"></script>
 </head>
 <body ng-app="buttons">
 <div class="container-fluid">
     <h1>Cash Register (with buttons)</h1>
     <div id="buttons" ng-controller="buttonCtrl" >
        <div ng-repeat="button in buttons">
-         <div style="position:absolute;left:{{button.left}}px;top:{{button.top}}px"><button id="{{button.buttonID}}" ng-click="buttonClick($event,'button.buttonID');" >{{button.label}}</button></div>
+         <div style="position:absolute;color:{{button.color}};left:{{button.left}}px;top:{{button.top}}px"><button id="{{button.id}}" ng-click="buttonClick($event,'button.id');" >{{button.label}}</button></div>
        </div>
        <div style="position:fixed;height:50px;bottom:0px;left:0px;right:0px;margin-bottom:0px"} ng-show="errorMessage != ''">
           <div class="col-sm-12">
@@ -20,6 +21,16 @@
          </div>
        </div>
      </div>
+     <div class="Item List">
+       <h2>Transaction Items</h2>
+       <div id="items" ng-controller="itemCtrl" >
+         <h3> {{errorMessage}} </h3>
+       <div ng-repeat="item in items">
+         {{ item.item + ' ' + item.price + ' ' + item.quantity }}
+        <div style ="text-align: center;" ng-click="itemClick($event,'item.id');">
+   </div>
+ </div>
+</div>
 </div>
 </body>
 </html>
