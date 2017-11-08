@@ -5,7 +5,7 @@ credentials=require('./resources/credentials.json'),
 DBF=require('./resources/dbf-setup.js');
 var user = credentials.user;
 var buttonInfo = [];
-var transactionItems = [];
+// var transactionItems = [];
 
 app = express(),
 port = process.env.PORT || 1337;
@@ -20,7 +20,6 @@ connection.connect(function(err){if(err){console.log(error)}});
 app.use(express.static(__dirname + '/public'));
 app.get("/buttons",function(req,res){
   var sql = 'SELECT till_buttons.*, prices.price FROM ' + user + '.till_buttons INNER JOIN '+ user + '.prices ON till_buttons.id = prices.id';
-
   connection.query(sql,(function(res){return function(err,rows,fields){
      if(err){console.log("We have an error:");
              console.log(err);}
@@ -31,17 +30,26 @@ app.get("/buttons",function(req,res){
 });
 
 app.get("/items", function(req, res){
-  res.send(transactionItems);
+  var sql ='SELECT * FROM ' + user +'.transaction';
+  connection.query(sql,(function(res){return function(err,rows,fields){
+     if(err){console.log("We have an error:");
+             console.log(err);}
+        //     transactionItems = rows;
+        //     console.log(transactionItems);
+     res.send(rows);
+  }})(res));
 });
 
-app.get("/clickeditem", function(res,req){
+app.get("/clickItem", function(res,req){
   var id = req.param("id");
-  for (var i = 0; i < transactionItems.length; i++) {
-    if (transactionItems[i].id == id){
-      transactionItems.splice(i, 1);
-    }
-  }
+  var sql = 'DELETE FROM ' + user + '.transaction WHERE itemID = ' + id;
+  connection.query(sql,(function(res){return function(err,rows,fields){
+     if(err){console.log("We have an insertion error:");
+             console.log(err);}
+     res.send(err); // Let the upstream guy know how it went
+  }})(res));
 });
+
 
 app.get("/click",function(req,res){
   var id = req.param("id");
@@ -50,11 +58,10 @@ app.get("/click",function(req,res){
   var price = extractProperty(buttonInfo, "price", id);
   console.log(label);
   console.log(price);
-  var sql = "INSERT INTO " + user + ".transaction values (" + 01 + ", " + id + ", '" + label + "', " +
-  1 + ", " + price + ", " + "NOW()" + ")";
-  console.log("Attempting sql ->"+sql+"<-");
-  console.log(transactionItems);
-  console.log(extractProperty(transactionItems, "id", id));
+
+  var sql = "INSERT INTO " + user + ".transaction VALUES (" + 01 + ", " + id + ", '" + label + "', " + 1 + ", " + price + ") ON DUPLICATE KEY UPDATE quantity = quantity + 1";
+
+  /*
   if (extractProperty(transactionItems, "id", id) == -1) {
   var transactionItem = {
     item: label,
@@ -70,10 +77,12 @@ else {
     console.log(transactionItems);
     if(transactionItems[j].id==id) {
       transactionItems[j].quantity = transactionItems[j].quantity + 1;
+      sql = "UPDATE " + user + ".transaction SET quantity = " + extractProperty(transactionItems, "quantity", id) + " WHERE itemID = " + id;
     }
   }
 }
-
+*/
+console.log("Attempting sql ->"+sql+"<-");
   connection.query(sql,(function(res){return function(err,rows,fields){
      if(err){console.log("We have an insertion error:");
              console.log(err);}
