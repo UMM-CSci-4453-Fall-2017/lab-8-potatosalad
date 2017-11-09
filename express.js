@@ -40,9 +40,11 @@ app.get("/items", function(req, res){
   }})(res));
 });
 
-app.get("/clickItem", function(res,req){
+app.get("/itemclick", function(res,req){
+  console.log("Doing stuff");
   var id = req.param("id");
   var sql = 'DELETE FROM ' + user + '.transaction WHERE itemID = ' + id;
+  console.log(sql);
   connection.query(sql,(function(res){return function(err,rows,fields){
      if(err){console.log("We have an insertion error:");
              console.log(err);}

@@ -25,12 +25,13 @@
        <h2>Transaction Items</h2>
        <div id="items">
          <h3> {{errorMessage}} </h3>
-       <div ng-repeat="item in items">
-         {{ item.itemID + ' ' + item.price + ' ' + item.quantity }}
-        <div style ="text-align: center;" ng-click="itemClick($event,'item.id');">
+       <div ng-repeat="item in items" ng-click="itemClick($event,item.id);">
+         <button ng-click="itemClick(item.itemID);">{{item.item}} {{(item.price * item.quantity | number:2)}} {{item.quantity}}</button>
+        <div style ="text-align: center;" ng-click="itemClick($event,item.id);">
    </div>
  </div>
 </div>
+<p> {{total(items)}} </p>
 </div>
 </div>
 </body>
