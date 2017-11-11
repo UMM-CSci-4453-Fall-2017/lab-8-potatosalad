@@ -40,15 +40,23 @@ app.get("/items", function(req, res){
   }})(res));
 });
 
-app.get("/itemclick", function(res,req){
+app.get("/itemclick", function(req, res){
   console.log("Doing stuff");
   var id = req.param("id");
-  var sql = 'DELETE FROM ' + user + '.transaction WHERE itemID = ' + id;
+  console.log(id);
+  console.log(typeof(id));
+  var sql = 'DELETE FROM ' + user + '.transaction WHERE itemID = ' + id+';';
   console.log(sql);
   connection.query(sql,(function(res){return function(err,rows,fields){
-     if(err){console.log("We have an insertion error:");
-             console.log(err);}
-     res.send(err); // Let the upstream guy know how it went
+    console.log("here");
+    //throws errors when clicked but deletes the right buttons when refreshed.
+    /*if(err){console.log("We have an insertion error:");
+            console.log(err);
+            res.send(err);
+    }
+    */
+
+    res.send();
   }})(res));
 });
 
@@ -87,9 +95,12 @@ else {
 console.log("Attempting sql ->"+sql+"<-");
   connection.query(sql,(function(res){return function(err,rows,fields){
      if(err){console.log("We have an insertion error:");
-             console.log(err);}
-     res.send(err); // Let the upstream guy know how it went
+             console.log(err);
+             res.send(err);
+           }
+
   }})(res));
+  res.send();
 });
 // Your other API handlers go here!
 
