@@ -20,7 +20,7 @@
     <div id="buttons">
        <div ng-repeat="button in buttons">
          <div style="position:absolute;color:{{button.color}};left:{{button.left}}%;top:{{button.top}}%">
-           <button type="button" class="btn btn-primary" id="{{button.id}}" ng-click="buttonClick($event,'button.id');" >{{button.label}}</button></div>
+           <a <button type="button" class="btn btn-primary" id="{{button.id}}" ng-click="buttonClick($event,'button.id');" >{{button.label}}</button></div></a>
        </div>
        <div style="position:fixed;height:50px;bottom:0px;left:0px;right:0px;margin-bottom:0px"} ng-show="errorMessage != ''">
           <div class="col-sm-12">
