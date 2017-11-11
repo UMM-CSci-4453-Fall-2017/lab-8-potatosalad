@@ -7,11 +7,12 @@ function registerCtrl($scope,registerApi){
    $scope.buttons=[]; //Initially all was still
    $scope.items=[];
    $scope.total=function(items) {
-     total = 0;
+    var total = 0;
+    parseInt(total);
      for (var i = 0; i < items.length; i++) {
-       total = total + findSum(items[i].price, items[i].quantity);
+       total = parseInt(total) + parseInt(findSum(items[i].price, items[i].quantity));
      }
-     return total;
+     return total.toFixed(2);
    };
    $scope.errorMessage='';
    $scope.isLoading=isLoading;
@@ -27,6 +28,7 @@ function registerCtrl($scope,registerApi){
    function isLoading(){
     return loading;
    }
+
   function refreshButtons(){
     loading=true;
     $scope.errorMessage='';
@@ -47,11 +49,11 @@ function registerCtrl($scope,registerApi){
     registerApi.getItems()
        .success(function(data){
          $scope.items = data;
-         if (items.length > 0) {
-         items[items.length].price = items[items.length].price.toFixed(2);
+         loading=false;
+
        }
-       })
-       .error(function(){$scope.errorMessage="Unable click";});
+     )
+       .error(function(){$scope.errorMessage="Unable click"; loading=false;});
  }
 
 
@@ -74,23 +76,19 @@ function itemClick(id){
   $scope.errorMessage='';
   registerApi.clickItem(id)
     .success(function(){
+      console.log("Hello");
       retrieveItems();
     })
-    .error(function(){$scope.errorMessage="Error clicking on item -- Can't Delete!"})
+    .error(function(){$scope.errorMessage="Error clicking on item -- Can't Delete!"});
+    //retrieveItems();
+
 }
 
 function findSum(price, quantity) {
   return (price * quantity).toFixed(2);
 }
 
-function findTotal() {
-  var total = 0;
-  console.log(items.length)
-  for (var i = 0; i < items.length; i++) {
-    total = total + findSum(items[i].price, items[i].quantity)
-  }
-  return total.toFixed(2);
-}
+
 
 }
 
@@ -106,12 +104,16 @@ function registerApi($http,apiUrl){
     },
     clickButton: function(id){
       var url = apiUrl+'/click?id='+id;
-//      console.log("Attempting with "+url);
+
       return $http.get(url); // Easy enough to do this way
     },
     clickItem: function(id){
-      console.log(id);
+      console.log("we make it here");
+
       var url = apiUrl +'/itemclick?id='+id
+
+         console.log("Attempting with "+url);
+         console.log(typeof(url));
       return $http.get(url);
     }
  };
