@@ -3,7 +3,7 @@ var express=require('express'),
 mysql=require('mysql'),
 credentials=require('./resources/credentials.json'),
 DBF=require('./resources/dbf-setup.js');
-var user = credentials.user;
+var user = "fossx229";
 var buttonInfo = [];
 
 app = express(),
@@ -75,7 +75,6 @@ app.get("/click",function(req,res){
 }})(res));
 res.send();
 });
-// Your other API handlers go here!
 
 // Helper function for getting information from our button array for formatting our insert statements. We wrote it because we couldn't seem to get the map function to work...
 function extractProperty (array, propertyName, id) {
