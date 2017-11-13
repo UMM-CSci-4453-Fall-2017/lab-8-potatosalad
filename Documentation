@@ -1,0 +1,18 @@
+Group Members:
+
+Kyle Foss (fossx229)
+Colin Rabe (rabex028)
+
+Group Database:
+fossx229
+
+
+
+API Details:
+
+Our current API contains four protocols for requesting and receiving information from and to the backend.
+
+/buttons returns an array of each of the details for the styling and content of the till_buttons
+/items returns an array of each of the items which are a part of the current transaction table
+/click has a button id as a parameter and will increase the quantity of an item in the transaction table and refresh the page.
+/itemclick has a button id as a parameter and will delete an item (with all of its quantity) from the transaction table and refresh the page.
