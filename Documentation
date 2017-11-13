@@ -16,3 +16,6 @@ Our current API contains four protocols for requesting and receiving information
 /items returns an array of each of the items which are a part of the current transaction table
 /click has a button id as a parameter and will increase the quantity of an item in the transaction table and refresh the page.
 /itemclick has a button id as a parameter and will delete an item (with all of its quantity) from the transaction table and refresh the page.
+
+These endpoints are individually defined in the server and are accessed through the controller within a function called
+"registerApi" which handles the creation of the appropriate url to be sent out.
